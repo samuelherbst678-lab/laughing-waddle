@@ -31,13 +31,6 @@
         .tech-font { font-family: 'Chakra Petch', sans-serif; }
         .pitch-card { background: #111827; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2); }
         
-        /* Canvas-sichere Zentrierung für Badges & Buttons, um html2canvas-Verschiebungen zu verhindern */
-        .safe-center {
-            display: inline-block;
-            text-align: center;
-            vertical-align: middle;
-        }
-
         @keyframes tickerMove {
             0% { transform: translate3d(0, 0, 0); }
             100% { transform: translate3d(-50%, 0, 0); }
@@ -468,15 +461,16 @@
             }
 
             data.forEach(p => {
-                const heightPct = Math.max((p.pct / maxPct) * 100, 15);
-                const oldHeightPct = Math.max(((p.oldPct || 0) / maxPct) * 100, 5);
+                // EXAKTE SKALIERUNG OHNE MINDESTHÖHE
+                const heightPct = (p.pct / maxPct) * 100;
+                const oldHeightPct = ((p.oldPct || 0) / maxPct) * 100;
 
                 const barItem = document.createElement('div');
                 barItem.className = 'flex flex-col items-center justify-end h-full w-full relative px-[0.25px]';
                 barItem.innerHTML = `
                     <div class="w-full flex items-end justify-center gap-[0.5px] h-full relative">
                         <!-- Main Bar -->
-                        <div class="w-full max-w-[80px] flex flex-col justify-between p-2 text-center text-white font-bold text-sm tech-font rounded-none shadow-lg transition-all duration-300 relative z-10" 
+                        <div class="w-full max-w-[80px] flex flex-col justify-between p-1.5 text-center text-white font-bold text-sm tech-font rounded-none shadow-lg transition-all duration-300 relative z-10" 
                              style="height: ${heightPct}%; background-color: ${p.color};">
                             <span>${p.pct}%</span>
                             
@@ -503,10 +497,8 @@
                 ideologyItem.className = 'flex flex-col items-center gap-1 w-full px-[0.25px]';
                 ideologyItem.innerHTML = `
                     <div class="text-xs font-semibold ${diffColor} tech-font">${p.diff || '0.0%'}</div>
-                    <!-- SAFE-CENTER VERHINDERT VERSCHIEBUNG BEI SCREENSHOTS -->
-                    <div class="text-center w-full">
-                        <span class="text-[10px] font-bold px-2.5 py-1 rounded text-white shadow-sm inline-block safe-center" style="background-color: ${p.color}">${p.short}</span>
-                    </div>
+                    <!-- ONLY ABBREVIATION -->
+                    <div class="text-[10px] font-bold px-2.5 py-1 rounded text-white shadow-sm break-words max-w-full" style="background-color: ${p.color}">${p.short}</div>
                     <div class="text-[11px] text-gray-400 leading-snug break-words whitespace-normal w-full mt-1 font-medium">
                         ${(p.ideology || '').replace(/\n/g, '<br>')}
                     </div>
@@ -615,7 +607,7 @@
                 const strongestParty = [...b.parties].sort((x, y) => y.seats - x.seats)[0];
 
                 const blockBadge = document.createElement('div');
-                blockBadge.className = 'px-4 py-2 rounded-lg text-white font-bold text-xs tech-font inline-block border border-white/10 shadow-lg uppercase tracking-wider safe-center';
+                blockBadge.className = 'px-4 py-2 rounded-lg text-white font-bold text-xs tech-font flex items-center gap-2 border border-white/10 shadow-lg uppercase tracking-wider';
                 blockBadge.style.backgroundColor = strongestParty ? strongestParty.color : '#334155';
                 blockBadge.innerHTML = `<span>${blockName}: ${b.seats} SEATS</span>`;
                 container.appendChild(blockBadge);
@@ -643,7 +635,7 @@
                     bParties.forEach(p => p.coalition = !allSelected);
                     renderAll(false);
                 };
-                quickBtn.className = `px-3 py-1.5 rounded-lg text-[11px] font-bold tech-font border transition-all shadow-sm inline-block safe-center ${allSelected ? 'border-sky-400 ring-2 ring-sky-400/40 text-white' : 'border-gray-800 opacity-70 hover:opacity-100 text-gray-300'}`;
+                quickBtn.className = `px-3 py-1.5 rounded-lg text-[11px] font-bold tech-font border transition-all shadow-sm ${allSelected ? 'border-sky-400 ring-2 ring-sky-400/40 text-white' : 'border-gray-800 opacity-70 hover:opacity-100 text-gray-300'}`;
                 quickBtn.style.backgroundColor = strongest ? strongest.color : '#334155';
                 quickBtn.innerText = `+ ${bName}`;
                 blockQuickSelect.appendChild(quickBtn);
@@ -667,7 +659,7 @@
                     p.coalition = !p.coalition;
                     renderAll(false);
                 };
-                btn.className = `px-3.5 py-2 rounded-lg text-xs font-bold tech-font transition-all border shadow-sm inline-block safe-center ${p.coalition ? 'border-sky-400 ring-2 ring-sky-400/50 scale-105' : 'border-gray-800 opacity-40 hover:opacity-70'}`;
+                btn.className = `px-3.5 py-2 rounded-lg text-xs font-bold tech-font transition-all border shadow-sm ${p.coalition ? 'border-sky-400 ring-2 ring-sky-400/50 scale-105' : 'border-gray-800 opacity-40 hover:opacity-70'}`;
                 btn.style.backgroundColor = p.color;
                 btn.style.color = '#ffffff';
                 btn.innerText = `${p.short} (${p.seats})`;
@@ -680,10 +672,10 @@
 
             const statusEl = document.getElementById('coalition-status');
             if (totalSelectedSeats >= majoritySeatsNeeded && majoritySeatsNeeded > 0) {
-                statusEl.className = 'text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 shadow-[0_0_10px_rgba(16,185,129,0.2)] safe-center';
+                statusEl.className = 'text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 shadow-[0_0_10px_rgba(16,185,129,0.2)]';
                 statusEl.innerText = `MAJORITY REACHED (${totalSelectedSeats} / ${majoritySeatsNeeded} Seats)`;
             } else {
-                statusEl.className = 'text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60 safe-center';
+                statusEl.className = 'text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60';
                 statusEl.innerText = `NO MAJORITY (${totalSelectedSeats} / ${majoritySeatsNeeded} Seats)`;
             }
 
@@ -927,23 +919,23 @@
             renderAll(true);
         }
 
-                function export4K() {
+        function export4K() {
             const exportArea = document.getElementById('export-area');
             
-            // Feste Breite erzwingen, damit Flexboxen beim Rendern nicht verrutschen
-            const originalWidth = exportArea.style.width;
-            exportArea.style.width = '1440px';
-
+            // html2canvas Options mit festem Rendering für exaktes Flexbox-Layout
             html2canvas(exportArea, {
                 scale: 2,
                 backgroundColor: '#0B0F19',
                 useCORS: true,
                 logging: false,
-                windowWidth: 1440
+                onclone: (clonedDoc) => {
+                    // Verhindert das Verrutschen von Flexbox-Header- & Titeln im Screenshot
+                    const clonedExportArea = clonedDoc.getElementById('export-area');
+                    if (clonedExportArea) {
+                        clonedExportArea.style.width = exportArea.offsetWidth + 'px';
+                    }
+                }
             }).then(canvas => {
-                // Breite nach dem Screenshot wieder zurücksetzen
-                exportArea.style.width = originalWidth;
-
                 const filename = `election_studio_4k_${Date.now()}.png`;
 
                 if (navigator.msSaveBlob) {
@@ -963,7 +955,6 @@
                     }, 'image/png');
                 }
             }).catch(err => {
-                exportArea.style.width = originalWidth;
                 console.error("Export failed:", err);
                 alert("Export failed. Please check console.");
             });
