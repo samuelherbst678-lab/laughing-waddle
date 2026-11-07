@@ -927,17 +927,23 @@
             renderAll(true);
         }
 
-        function export4K() {
+                function export4K() {
             const exportArea = document.getElementById('export-area');
             
+            // Feste Breite erzwingen, damit Flexboxen beim Rendern nicht verrutschen
+            const originalWidth = exportArea.style.width;
+            exportArea.style.width = '1440px';
+
             html2canvas(exportArea, {
                 scale: 2,
                 backgroundColor: '#0B0F19',
                 useCORS: true,
                 logging: false,
-                scrollX: 0,
-                scrollY: 0
+                windowWidth: 1440
             }).then(canvas => {
+                // Breite nach dem Screenshot wieder zurücksetzen
+                exportArea.style.width = originalWidth;
+
                 const filename = `election_studio_4k_${Date.now()}.png`;
 
                 if (navigator.msSaveBlob) {
@@ -957,6 +963,7 @@
                     }, 'image/png');
                 }
             }).catch(err => {
+                exportArea.style.width = originalWidth;
                 console.error("Export failed:", err);
                 alert("Export failed. Please check console.");
             });
