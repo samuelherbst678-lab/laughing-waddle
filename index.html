@@ -51,7 +51,6 @@
             transition: all 0.3s ease;
         }
         
-        /* Feste Ausrichtung gegen Safari/html2canvas Verschiebung */
         .export-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; position: relative; min-height: 32px; }
         
         ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -471,8 +470,8 @@
                 barItem.className = 'flex flex-col items-center justify-end h-full w-full relative px-[0.25px]';
                 barItem.innerHTML = `
                     <div class="w-full flex items-end justify-center gap-[0.5px] h-full relative">
-                        <!-- Main Bar -->
-                        <div class="w-full max-w-[80px] flex flex-col justify-between p-2 text-center text-white font-bold text-sm tech-font rounded-none shadow-lg transition-all duration-300 relative z-10" 
+                        <!-- Main Bar (Zentriert per flex + justify-center) -->
+                        <div class="w-full max-w-[80px] flex flex-col justify-center items-center py-2 text-center text-white font-bold text-sm tech-font rounded-none shadow-lg transition-all duration-300 relative z-10" 
                              style="height: ${heightPct}%; background-color: ${p.color};">
                             <span>${p.pct}%</span>
                             
@@ -609,7 +608,7 @@
                 const strongestParty = [...b.parties].sort((x, y) => y.seats - x.seats)[0];
 
                 const blockBadge = document.createElement('div');
-                blockBadge.className = 'px-4 py-2 rounded-lg text-white font-bold text-xs tech-font flex items-center gap-2 border border-white/10 shadow-lg uppercase tracking-wider';
+                blockBadge.className = 'px-4 py-2 rounded-lg text-white font-bold text-xs tech-font flex items-center justify-center gap-2 border border-white/10 shadow-lg uppercase tracking-wider';
                 blockBadge.style.backgroundColor = strongestParty ? strongestParty.color : '#334155';
                 blockBadge.innerHTML = `<span>${blockName}: ${b.seats} SEATS</span>`;
                 container.appendChild(blockBadge);
@@ -637,7 +636,7 @@
                     bParties.forEach(p => p.coalition = !allSelected);
                     renderAll(false);
                 };
-                quickBtn.className = `px-3 py-1.5 rounded-lg text-[11px] font-bold tech-font border transition-all shadow-sm ${allSelected ? 'border-sky-400 ring-2 ring-sky-400/40 text-white' : 'border-gray-800 opacity-70 hover:opacity-100 text-gray-300'}`;
+                quickBtn.className = `px-3 py-1.5 rounded-lg text-[11px] font-bold tech-font border transition-all shadow-sm flex items-center justify-center ${allSelected ? 'border-sky-400 ring-2 ring-sky-400/40 text-white' : 'border-gray-800 opacity-70 hover:opacity-100 text-gray-300'}`;
                 quickBtn.style.backgroundColor = strongest ? strongest.color : '#334155';
                 quickBtn.innerText = `+ ${bName}`;
                 blockQuickSelect.appendChild(quickBtn);
@@ -661,7 +660,7 @@
                     p.coalition = !p.coalition;
                     renderAll(false);
                 };
-                btn.className = `px-3.5 py-2 rounded-lg text-xs font-bold tech-font transition-all border shadow-sm ${p.coalition ? 'border-sky-400 ring-2 ring-sky-400/50 scale-105' : 'border-gray-800 opacity-40 hover:opacity-70'}`;
+                btn.className = `px-3.5 py-2 rounded-lg text-xs font-bold tech-font transition-all border shadow-sm flex items-center justify-center ${p.coalition ? 'border-sky-400 ring-2 ring-sky-400/50 scale-105' : 'border-gray-800 opacity-40 hover:opacity-70'}`;
                 btn.style.backgroundColor = p.color;
                 btn.style.color = '#ffffff';
                 btn.innerText = `${p.short} (${p.seats})`;
@@ -674,10 +673,10 @@
 
             const statusEl = document.getElementById('coalition-status');
             if (totalSelectedSeats >= majoritySeatsNeeded && majoritySeatsNeeded > 0) {
-                statusEl.className = 'text-xs font-bold tech-font px-3.5 py-2 rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 shadow-[0_0_10px_rgba(16,185,129,0.2)] leading-none';
+                statusEl.className = 'text-xs font-bold tech-font px-3.5 py-2 rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 shadow-[0_0_10px_rgba(16,185,129,0.2)] leading-none flex items-center justify-center';
                 statusEl.innerText = `MAJORITY REACHED (${totalSelectedSeats} / ${majoritySeatsNeeded} Seats)`;
             } else {
-                statusEl.className = 'text-xs font-bold tech-font px-3.5 py-2 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60 leading-none';
+                statusEl.className = 'text-xs font-bold tech-font px-3.5 py-2 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60 leading-none flex items-center justify-center';
                 statusEl.innerText = `NO MAJORITY (${totalSelectedSeats} / ${majoritySeatsNeeded} Seats)`;
             }
 
