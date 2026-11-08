@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 flex-wrap">
                 <!-- Turnout Box -->
                 <div class="flex items-center bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow">
                     <div class="bg-gray-700 px-3 py-1.5 text-xs font-bold text-white flex items-center gap-1.5 tech-font">
@@ -162,46 +162,141 @@
                 </div>
             </div>
 
-            <!-- COALITION CALCULATOR -->
-            <div id="coalition-section" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[380px]">
-                <div class="flex justify-between items-center w-full mb-3">
-                    <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator</h3>
-                    <div id="coalition-status" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
-                        NO MAJORITY (0 / 0 Seats)
+            <!-- COALITION CALCULATOR CONTAINER (Dynamic 1, 2 or 3 Calculators) -->
+            <div id="coalition-section-wrapper" class="flex flex-col gap-6">
+                <div class="flex justify-between items-center px-2">
+                    <h3 class="text-xs font-bold tech-font text-gray-400 uppercase tracking-wider">Coalition Calculator Panel</h3>
+                    <div class="flex items-center gap-1 bg-gray-900 p-1 rounded-lg border border-gray-800">
+                        <span class="text-[10px] font-bold tech-font text-gray-400 px-2">Calculators:</span>
+                        <button onclick="setCalculatorCount(1)" id="btn-calc-1" class="px-2.5 py-1 text-xs font-bold rounded tech-font bg-sky-600 text-white shadow">1</button>
+                        <button onclick="setCalculatorCount(2)" id="btn-calc-2" class="px-2.5 py-1 text-xs font-bold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300">2</button>
+                        <button onclick="setCalculatorCount(3)" id="btn-calc-3" class="px-2.5 py-1 text-xs font-bold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300">3</button>
                     </div>
                 </div>
 
-                <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
-                    <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
-                    <div id="coalition-block-quickselect" class="flex gap-2 flex-wrap"></div>
-                </div>
-
-                <div id="coalition-buttons" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
-
-                <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800">
-                    <span class="text-xs font-bold tech-font text-gray-400 mb-3 uppercase tracking-wider">Coalition Seat Distribution</span>
-                    
-                    <div id="coalition-arc-wrapper" class="relative w-[340px] h-[180px] flex justify-center items-center">
-                        <canvas id="coalitionChart"></canvas>
-                    </div>
-
-                    <div id="coalition-westminster-wrapper" class="hidden flex-col items-center justify-center w-full max-w-4xl py-4">
-                        <div class="flex items-center gap-4 w-full">
-                            <div class="flex flex-col items-center justify-center border border-gray-800 p-2.5 rounded-lg bg-gray-900 shadow-inner">
-                                <div class="w-4 h-4 rounded-full bg-amber-400 mb-1 shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div>
-                                <span class="text-[9px] font-bold tech-font text-gray-400 uppercase">SPEAKER</span>
+                <!-- GridContainer for the Calculators -->
+                <div id="calculators-grid" class="grid grid-cols-1 gap-6">
+                    <!-- Calculator 1 -->
+                    <div id="calc-box-1" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[380px]">
+                        <div class="flex justify-between items-center w-full mb-3">
+                            <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator A</h3>
+                            <div id="coalition-status-1" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
+                                NO MAJORITY (0 / 0 Seats)
                             </div>
-                            <div class="flex-1 flex flex-col gap-4">
-                                <div class="flex flex-col gap-1 bg-gray-900/60 p-3 rounded-lg border border-gray-800">
-                                    <span class="text-[10px] font-bold tech-font text-emerald-400 tracking-wider">SELECTED COALITION</span>
-                                    <div id="uk-coalition-gov-grid" class="flex flex-wrap gap-1.5 items-center"></div>
+                        </div>
+                        <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
+                            <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
+                            <div id="coalition-block-quickselect-1" class="flex gap-2 flex-wrap"></div>
+                        </div>
+                        <div id="coalition-buttons-1" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
+                        <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800">
+                            <span class="text-xs font-bold tech-font text-gray-400 mb-3 uppercase tracking-wider">Coalition Distribution A</span>
+                            <div id="coalition-arc-wrapper-1" class="relative w-[340px] h-[180px] flex justify-center items-center">
+                                <canvas id="coalitionChart-1"></canvas>
+                            </div>
+                            <div id="coalition-westminster-wrapper-1" class="hidden flex-col items-center justify-center w-full max-w-4xl py-4">
+                                <div class="flex items-center gap-4 w-full">
+                                    <div class="flex flex-col items-center justify-center border border-gray-800 p-2.5 rounded-lg bg-gray-900 shadow-inner">
+                                        <div class="w-4 h-4 rounded-full bg-amber-400 mb-1 shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div>
+                                        <span class="text-[9px] font-bold tech-font text-gray-400 uppercase">SPEAKER</span>
+                                    </div>
+                                    <div class="flex-1 flex flex-col gap-4">
+                                        <div class="flex flex-col gap-1 bg-gray-900/60 p-3 rounded-lg border border-gray-800">
+                                            <span class="text-[10px] font-bold tech-font text-emerald-400 tracking-wider">SELECTED COALITION</span>
+                                            <div id="uk-coalition-gov-grid-1" class="flex flex-wrap gap-1.5 items-center"></div>
+                                        </div>
+                                        <div class="w-full h-0.5 bg-rose-600/40 relative flex justify-center items-center">
+                                            <span class="text-[8px] bg-panel px-2 text-gray-500 font-bold tech-font">AISLE</span>
+                                        </div>
+                                        <div class="flex flex-col gap-1 bg-gray-900/60 p-3 rounded-lg border border-gray-800">
+                                            <span class="text-[10px] font-bold tech-font text-gray-400 tracking-wider">REMAINING PARTIES</span>
+                                            <div id="uk-coalition-opp-grid-1" class="flex flex-wrap gap-1.5 items-center"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="w-full h-0.5 bg-rose-600/40 relative flex justify-center items-center">
-                                    <span class="text-[8px] bg-panel px-2 text-gray-500 font-bold tech-font">AISLE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculator 2 -->
+                    <div id="calc-box-2" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[380px] hidden">
+                        <div class="flex justify-between items-center w-full mb-3">
+                            <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator B</h3>
+                            <div id="coalition-status-2" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
+                                NO MAJORITY (0 / 0 Seats)
+                            </div>
+                        </div>
+                        <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
+                            <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
+                            <div id="coalition-block-quickselect-2" class="flex gap-2 flex-wrap"></div>
+                        </div>
+                        <div id="coalition-buttons-2" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
+                        <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800">
+                            <span class="text-xs font-bold tech-font text-gray-400 mb-3 uppercase tracking-wider">Coalition Distribution B</span>
+                            <div id="coalition-arc-wrapper-2" class="relative w-[340px] h-[180px] flex justify-center items-center">
+                                <canvas id="coalitionChart-2"></canvas>
+                            </div>
+                            <div id="coalition-westminster-wrapper-2" class="hidden flex-col items-center justify-center w-full max-w-4xl py-4">
+                                <div class="flex items-center gap-4 w-full">
+                                    <div class="flex flex-col items-center justify-center border border-gray-800 p-2.5 rounded-lg bg-gray-900 shadow-inner">
+                                        <div class="w-4 h-4 rounded-full bg-amber-400 mb-1 shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div>
+                                        <span class="text-[9px] font-bold tech-font text-gray-400 uppercase">SPEAKER</span>
+                                    </div>
+                                    <div class="flex-1 flex flex-col gap-4">
+                                        <div class="flex flex-col gap-1 bg-gray-900/60 p-3 rounded-lg border border-gray-800">
+                                            <span class="text-[10px] font-bold tech-font text-emerald-400 tracking-wider">SELECTED COALITION</span>
+                                            <div id="uk-coalition-gov-grid-2" class="flex flex-wrap gap-1.5 items-center"></div>
+                                        </div>
+                                        <div class="w-full h-0.5 bg-rose-600/40 relative flex justify-center items-center">
+                                            <span class="text-[8px] bg-panel px-2 text-gray-500 font-bold tech-font">AISLE</span>
+                                        </div>
+                                        <div class="flex flex-col gap-1 bg-gray-900/60 p-3 rounded-lg border border-gray-800">
+                                            <span class="text-[10px] font-bold tech-font text-gray-400 tracking-wider">REMAINING PARTIES</span>
+                                            <div id="uk-coalition-opp-grid-2" class="flex flex-wrap gap-1.5 items-center"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="flex flex-col gap-1 bg-gray-900/60 p-3 rounded-lg border border-gray-800">
-                                    <span class="text-[10px] font-bold tech-font text-gray-400 tracking-wider">REMAINING PARTIES</span>
-                                    <div id="uk-coalition-opp-grid" class="flex flex-wrap gap-1.5 items-center"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculator 3 -->
+                    <div id="calc-box-3" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[380px] hidden">
+                        <div class="flex justify-between items-center w-full mb-3">
+                            <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator C</h3>
+                            <div id="coalition-status-3" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
+                                NO MAJORITY (0 / 0 Seats)
+                            </div>
+                        </div>
+                        <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
+                            <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
+                            <div id="coalition-block-quickselect-3" class="flex gap-2 flex-wrap"></div>
+                        </div>
+                        <div id="coalition-buttons-3" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
+                        <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800">
+                            <span class="text-xs font-bold tech-font text-gray-400 mb-3 uppercase tracking-wider">Coalition Distribution C</span>
+                            <div id="coalition-arc-wrapper-3" class="relative w-[340px] h-[180px] flex justify-center items-center">
+                                <canvas id="coalitionChart-3"></canvas>
+                            </div>
+                            <div id="coalition-westminster-wrapper-3" class="hidden flex-col items-center justify-center w-full max-w-4xl py-4">
+                                <div class="flex items-center gap-4 w-full">
+                                    <div class="flex flex-col items-center justify-center border border-gray-800 p-2.5 rounded-lg bg-gray-900 shadow-inner">
+                                        <div class="w-4 h-4 rounded-full bg-amber-400 mb-1 shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div>
+                                        <span class="text-[9px] font-bold tech-font text-gray-400 uppercase">SPEAKER</span>
+                                    </div>
+                                    <div class="flex-1 flex flex-col gap-4">
+                                        <div class="flex flex-col gap-1 bg-gray-900/60 p-3 rounded-lg border border-gray-800">
+                                            <span class="text-[10px] font-bold tech-font text-emerald-400 tracking-wider">SELECTED COALITION</span>
+                                            <div id="uk-coalition-gov-grid-3" class="flex flex-wrap gap-1.5 items-center"></div>
+                                        </div>
+                                        <div class="w-full h-0.5 bg-rose-600/40 relative flex justify-center items-center">
+                                            <span class="text-[8px] bg-panel px-2 text-gray-500 font-bold tech-font">AISLE</span>
+                                        </div>
+                                        <div class="flex flex-col gap-1 bg-gray-900/60 p-3 rounded-lg border border-gray-800">
+                                            <span class="text-[10px] font-bold tech-font text-gray-400 tracking-wider">REMAINING PARTIES</span>
+                                            <div id="uk-coalition-opp-grid-3" class="flex flex-wrap gap-1.5 items-center"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -307,9 +402,10 @@
         let thresholdPct = 0;
         let majoritySeatsNeeded = 0;
         let totalParliamentSeats = 0;
+        let activeCalculatorCount = 1;
 
         let parliamentChartInstance = null;
-        let coalitionChartInstance = null;
+        let coalitionChartInstances = { 1: null, 2: null, 3: null };
 
         let meta = {
             flag: '🌐',
@@ -320,6 +416,13 @@
 
         let parliamentParties = [];
         let presidentialCandidates = [];
+
+        // Für jeden Rechner eigene Koalitions-Auswahl (coalition states pro Rechner ID)
+        let coalitionSelections = {
+            1: {},
+            2: {},
+            3: {}
+        };
 
         let usStates = [
             { code: 'AL', votes: 9, status: 'neutral', swing: false }, { code: 'AK', votes: 3, status: 'neutral', swing: false },
@@ -365,6 +468,34 @@
             document.getElementById('edit-ticker').value = meta.ticker;
         };
 
+        function setCalculatorCount(count) {
+            activeCalculatorCount = count;
+            
+            // Grid-Spalten anpassen
+            const grid = document.getElementById('calculators-grid');
+            if (count === 1) {
+                grid.className = "grid grid-cols-1 gap-6 max-w-2xl mx-auto w-full";
+            } else if (count === 2) {
+                grid.className = "grid grid-cols-1 md:grid-cols-2 gap-6 w-full";
+            } else {
+                grid.className = "grid grid-cols-1 lg:grid-cols-3 gap-6 w-full";
+            }
+
+            // Buttons Highlight aktualisieren
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById(`btn-calc-${i}`);
+                const box = document.getElementById(`calc-box-${i}`);
+                if (i <= count) {
+                    btn.className = "px-2.5 py-1 text-xs font-bold rounded tech-font bg-sky-600 text-white shadow";
+                    box.classList.remove('hidden');
+                } else {
+                    btn.className = "px-2.5 py-1 text-xs font-bold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300";
+                    box.classList.add('hidden');
+                }
+            }
+            renderAll(true);
+        }
+
         function setParliamentStyle(style) {
             parliamentStyle = style;
             document.getElementById('btn-style-arc').className = style === 'arc' ? 'px-2.5 py-1.5 text-xs font-semibold rounded tech-font bg-sky-600 text-white border border-sky-400/30 shadow' : 'px-2.5 py-1.5 text-xs font-semibold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700';
@@ -374,16 +505,20 @@
                 document.getElementById('main-arc-wrapper').classList.remove('hidden');
                 document.getElementById('main-westminster-wrapper').classList.add('hidden');
                 document.getElementById('main-westminster-wrapper').classList.remove('flex');
-                document.getElementById('coalition-arc-wrapper').classList.remove('hidden');
-                document.getElementById('coalition-westminster-wrapper').classList.add('hidden');
-                document.getElementById('coalition-westminster-wrapper').classList.remove('flex');
+                for (let i = 1; i <= 3; i++) {
+                    document.getElementById(`coalition-arc-wrapper-${i}`).classList.remove('hidden');
+                    document.getElementById(`coalition-westminster-wrapper-${i}`).classList.add('hidden');
+                    document.getElementById(`coalition-westminster-wrapper-${i}`).classList.remove('flex');
+                }
             } else {
                 document.getElementById('main-arc-wrapper').classList.add('hidden');
                 document.getElementById('main-westminster-wrapper').classList.remove('hidden');
                 document.getElementById('main-westminster-wrapper').classList.add('flex');
-                document.getElementById('coalition-arc-wrapper').classList.add('hidden');
-                document.getElementById('coalition-westminster-wrapper').classList.remove('hidden');
-                document.getElementById('coalition-westminster-wrapper').classList.add('flex');
+                for (let i = 1; i <= 3; i++) {
+                    document.getElementById(`coalition-arc-wrapper-${i}`).classList.add('hidden');
+                    document.getElementById(`coalition-westminster-wrapper-${i}`).classList.remove('hidden');
+                    document.getElementById(`coalition-westminster-wrapper-${i}`).classList.add('flex');
+                }
             }
             renderAll(true);
         }
@@ -409,7 +544,7 @@
                 document.getElementById('view-us').classList.remove('flex');
                 document.getElementById('view-standard').classList.remove('hidden');
                 document.getElementById('parliament-section').style.display = mode === 'parliament' ? 'flex' : 'none';
-                document.getElementById('coalition-section').style.display = mode === 'parliament' ? 'flex' : 'none';
+                document.getElementById('coalition-section-wrapper').style.display = mode === 'parliament' ? 'flex' : 'none';
             }
             renderAll(true);
         }
@@ -420,7 +555,9 @@
                 if (parliamentStyle === 'arc') renderParliamentChart(fullRender);
                 else renderWestminsterMainGrid();
                 renderBlocks();
-                renderCoalitionButtonsAndChart(fullRender);
+                for (let i = 1; i <= activeCalculatorCount; i++) {
+                    renderCoalitionButtonsAndChart(i, fullRender);
+                }
             } else if (currentMode === 'us') {
                 renderUSGrid();
             }
@@ -461,7 +598,6 @@
             }
 
             data.forEach(p => {
-                // EXAKTE SKALIERUNG OHNE MINDESTHÖHE
                 const heightPct = (p.pct / maxPct) * 100;
                 const oldHeightPct = ((p.oldPct || 0) / maxPct) * 100;
 
@@ -497,7 +633,6 @@
                 ideologyItem.className = 'flex flex-col items-center gap-1 w-full px-[0.25px]';
                 ideologyItem.innerHTML = `
                     <div class="text-xs font-semibold ${diffColor} tech-font">${p.diff || '0.0%'}</div>
-                    <!-- ONLY ABBREVIATION -->
                     <div class="text-[10px] font-bold px-2.5 py-1 rounded text-white shadow-sm break-words max-w-full" style="background-color: ${p.color}">${p.short}</div>
                     <div class="text-[11px] text-gray-400 leading-snug break-words whitespace-normal w-full mt-1 font-medium">
                         ${(p.ideology || '').replace(/\n/g, '<br>')}
@@ -614,11 +749,13 @@
             });
         }
 
-        function renderCoalitionButtonsAndChart(fullRebuild = false) {
-            const container = document.getElementById('coalition-buttons');
-            const blockQuickSelect = document.getElementById('coalition-block-quickselect');
+        function renderCoalitionButtonsAndChart(calcId, fullRebuild = false) {
+            const container = document.getElementById(`coalition-buttons-${calcId}`);
+            const blockQuickSelect = document.getElementById(`coalition-block-quickselect-${calcId}`);
             container.innerHTML = '';
             blockQuickSelect.innerHTML = '';
+
+            if (!coalitionSelections[calcId]) coalitionSelections[calcId] = {};
 
             let totalSelectedSeats = 0;
             const currentTotalSeats = parliamentParties.reduce((a, b) => a + b.seats, 0);
@@ -627,12 +764,14 @@
 
             blockNames.forEach(bName => {
                 const bParties = parliamentParties.filter(p => ((p.block && p.block.trim() !== '') ? p.block.trim() : 'Other') === bName);
-                const allSelected = bParties.every(p => p.coalition);
+                const allSelected = bParties.length > 0 && bParties.every(p => coalitionSelections[calcId][p.id]);
                 const strongest = [...bParties].sort((x, y) => y.seats - x.seats)[0];
 
                 const quickBtn = document.createElement('button');
                 quickBtn.onclick = () => {
-                    bParties.forEach(p => p.coalition = !allSelected);
+                    bParties.forEach(p => {
+                        coalitionSelections[calcId][p.id] = !allSelected;
+                    });
                     renderAll(false);
                 };
                 quickBtn.className = `px-3 py-1.5 rounded-lg text-[11px] font-bold tech-font border transition-all shadow-sm ${allSelected ? 'border-sky-400 ring-2 ring-sky-400/40 text-white' : 'border-gray-800 opacity-70 hover:opacity-100 text-gray-300'}`;
@@ -645,7 +784,8 @@
             const cColors = [];
 
             parliamentParties.forEach(p => {
-                if (p.coalition) {
+                const isSelected = !!coalitionSelections[calcId][p.id];
+                if (isSelected) {
                     totalSelectedSeats += p.seats;
                     cDataSeats.push(p.seats);
                     cColors.push(p.color);
@@ -656,10 +796,10 @@
 
                 const btn = document.createElement('button');
                 btn.onclick = () => {
-                    p.coalition = !p.coalition;
+                    coalitionSelections[calcId][p.id] = !isSelected;
                     renderAll(false);
                 };
-                btn.className = `px-3.5 py-2 rounded-lg text-xs font-bold tech-font transition-all border shadow-sm ${p.coalition ? 'border-sky-400 ring-2 ring-sky-400/50 scale-105' : 'border-gray-800 opacity-40 hover:opacity-70'}`;
+                btn.className = `px-3.5 py-2 rounded-lg text-xs font-bold tech-font transition-all border shadow-sm ${isSelected ? 'border-sky-400 ring-2 ring-sky-400/50 scale-105' : 'border-gray-800 opacity-40 hover:opacity-70'}`;
                 btn.style.backgroundColor = p.color;
                 btn.style.color = '#ffffff';
                 btn.innerText = `${p.short} (${p.seats})`;
@@ -670,7 +810,7 @@
             cDataSeats.push(remainingSeats);
             cColors.push('rgba(255, 255, 255, 0.05)');
 
-            const statusEl = document.getElementById('coalition-status');
+            const statusEl = document.getElementById(`coalition-status-${calcId}`);
             if (totalSelectedSeats >= majoritySeatsNeeded && majoritySeatsNeeded > 0) {
                 statusEl.className = 'text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 shadow-[0_0_10px_rgba(16,185,129,0.2)]';
                 statusEl.innerText = `MAJORITY REACHED (${totalSelectedSeats} / ${majoritySeatsNeeded} Seats)`;
@@ -680,10 +820,10 @@
             }
 
             if (parliamentStyle === 'arc') {
-                const ctx = document.getElementById('coalitionChart').getContext('2d');
-                if (!coalitionChartInstance || fullRebuild) {
-                    if (coalitionChartInstance) coalitionChartInstance.destroy();
-                    coalitionChartInstance = new Chart(ctx, {
+                const ctx = document.getElementById(`coalitionChart-${calcId}`).getContext('2d');
+                if (!coalitionChartInstances[calcId] || fullRebuild) {
+                    if (coalitionChartInstances[calcId]) coalitionChartInstances[calcId].destroy();
+                    coalitionChartInstances[calcId] = new Chart(ctx, {
                         type: 'doughnut',
                         data: {
                             datasets: [{
@@ -698,23 +838,24 @@
                             cutout: '48%',
                             responsive: true,
                             maintainAspectRatio: false,
-                            animation: { duration: 1000, easing: 'easeOutCubic' },
+                            animation: { duration: 400 },
                             plugins: { legend: { display: false } }
                         }
                     });
                 } else {
-                    coalitionChartInstance.data.datasets[0].data = cDataSeats;
-                    coalitionChartInstance.data.datasets[0].backgroundColor = cColors;
-                    coalitionChartInstance.update();
+                    coalitionChartInstances[calcId].data.datasets[0].data = cDataSeats;
+                    coalitionChartInstances[calcId].data.datasets[0].backgroundColor = cColors;
+                    coalitionChartInstances[calcId].update();
                 }
             } else {
-                const cGovGrid = document.getElementById('uk-coalition-gov-grid');
-                const cOppGrid = document.getElementById('uk-coalition-opp-grid');
+                const cGovGrid = document.getElementById(`uk-coalition-gov-grid-${calcId}`);
+                const cOppGrid = document.getElementById(`uk-coalition-opp-grid-${calcId}`);
                 cGovGrid.innerHTML = '';
                 cOppGrid.innerHTML = '';
 
                 parliamentParties.forEach(p => {
-                    if (p.coalition) {
+                    const isSelected = !!coalitionSelections[calcId][p.id];
+                    if (isSelected) {
                         for (let i = 0; i < p.seats; i++) {
                             const dot = document.createElement('div');
                             dot.className = 'uk-dot shadow-sm';
@@ -889,7 +1030,9 @@
                     if (parliamentStyle === 'arc') renderParliamentChart(false);
                     else renderWestminsterMainGrid();
                     renderBlocks();
-                    renderCoalitionButtonsAndChart(false);
+                    for (let i = 1; i <= activeCalculatorCount; i++) {
+                        renderCoalitionButtonsAndChart(i, false);
+                    }
                 }
             }
         }
@@ -906,7 +1049,7 @@
         function addParty() {
             const data = getActiveData();
             const newId = Date.now();
-            data.push({ id: newId, short: 'PARTY', seats: currentMode === 'parliament' ? 10 : 0, pct: 5.0, oldPct: 4.0, diff: '+1.0%', color: '#38BDF8', ideology: 'Centrism', govTag: '', block: 'New Block', coalition: false });
+            data.push({ id: newId, short: 'PARTY', seats: currentMode === 'parliament' ? 10 : 0, pct: 5.0, oldPct: 4.0, diff: '+1.0%', color: '#38BDF8', ideology: 'Centrism', govTag: '', block: 'New Block' });
             renderAll(true);
         }
 
@@ -921,15 +1064,12 @@
 
         function export4K() {
             const exportArea = document.getElementById('export-area');
-            
-            // html2canvas Options mit festem Rendering für exaktes Flexbox-Layout
             html2canvas(exportArea, {
                 scale: 2,
                 backgroundColor: '#0B0F19',
                 useCORS: true,
                 logging: false,
                 onclone: (clonedDoc) => {
-                    // Verhindert das Verrutschen von Flexbox-Header- & Titeln im Screenshot
                     const clonedExportArea = clonedDoc.getElementById('export-area');
                     if (clonedExportArea) {
                         clonedExportArea.style.width = exportArea.offsetWidth + 'px';
@@ -937,7 +1077,6 @@
                 }
             }).then(canvas => {
                 const filename = `election_studio_4k_${Date.now()}.png`;
-
                 if (navigator.msSaveBlob) {
                     navigator.msSaveBlob(canvas.msToBlob(), filename);
                 } else {
