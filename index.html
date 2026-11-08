@@ -77,8 +77,8 @@
     <!-- MAIN APP WRAPPER -->
     <div class="flex-1 flex flex-col p-4 md:p-6 max-w-[1920px] mx-auto w-full bg-[#0B0F19]">
         
-        <!-- HEADER -->
-        <header class="flex flex-wrap items-center justify-between pb-4 mb-4 border-b border-gray-800 gap-4">
+        <!-- HEADER (Teil von Export 1) -->
+        <header id="export-header-part" class="flex flex-wrap items-center justify-between pb-4 mb-4 border-b border-gray-800 gap-4">
             <div class="flex items-center gap-3">
                 <div id="flag-display" class="text-3xl p-1.5 bg-gray-900 rounded-lg border border-gray-800 shadow-inner">🌐</div>
                 <div>
@@ -88,8 +88,8 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-2 flex-wrap">
-                <!-- IG Export Dropdown / Buttons -->
+            <div class="flex items-center gap-2 flex-wrap" data-html2canvas-ignore="true">
+                <!-- IG Export Buttons -->
                 <div class="flex items-center bg-purple-950/60 border border-purple-800/60 rounded-lg p-1 gap-1">
                     <span class="text-[10px] font-bold tech-font text-purple-300 px-2">📱 IG EXPORT:</span>
                     <button onclick="exportIG('bars')" class="px-2.5 py-1 text-xs font-semibold rounded tech-font bg-purple-600 hover:bg-purple-500 text-white shadow">1. Balken</button>
@@ -98,7 +98,9 @@
                 </div>
 
                 <div class="h-4 w-[1px] bg-gray-800 mx-1"></div>
+            </div>
 
+            <div class="flex items-center gap-2 flex-wrap">
                 <!-- Turnout Box -->
                 <div class="flex items-center bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow">
                     <div class="bg-gray-700 px-3 py-1.5 text-xs font-bold text-white flex items-center gap-1.5 tech-font">
@@ -115,33 +117,48 @@
                     <div class="px-4 py-1.5 text-xs font-black text-sky-400 tech-font min-w-[70px] text-center" id="header-progress-val">0.0%</div>
                 </div>
 
-                <div class="h-4 w-[1px] bg-gray-800 mx-1"></div>
+                <div class="h-4 w-[1px] bg-gray-800 mx-1" data-html2canvas-ignore="true"></div>
 
-                <button onclick="setParliamentStyle('arc')" id="btn-style-arc" class="px-2.5 py-1.5 text-xs font-semibold rounded tech-font bg-sky-600 text-white border border-sky-400/30 shadow">⭕ SEMICIRCLE</button>
-                <button onclick="setParliamentStyle('westminster')" id="btn-style-uk" class="px-2.5 py-1.5 text-xs font-semibold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700">🇬🇧 WESTMINSTER</button>
+                <button onclick="setParliamentStyle('arc')" id="btn-style-arc" class="px-2.5 py-1.5 text-xs font-semibold rounded tech-font bg-sky-600 text-white border border-sky-400/30 shadow" data-html2canvas-ignore="true">⭕ SEMICIRCLE</button>
+                <button onclick="setParliamentStyle('westminster')" id="btn-style-uk" class="px-2.5 py-1.5 text-xs font-semibold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700" data-html2canvas-ignore="true">🇬🇧 WESTMINSTER</button>
                 
-                <button onclick="setMode('parliament')" id="btn-parliament" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-sky-600 text-white shadow">PARLIAMENT</button>
-                <button onclick="setMode('presidential')" id="btn-presidential" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700">PRESIDENTIAL</button>
-                <button onclick="setMode('us')" id="btn-us" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700">US ELECTION</button>
-                <button onclick="toggleEditor()" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-amber-600/80 hover:bg-amber-600 text-white ml-2 shadow">⚙️ EDITOR</button>
-                <button onclick="export4K()" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-emerald-600 hover:bg-emerald-500 text-white shadow">📸 4K FULL</button>
+                <button onclick="setMode('parliament')" id="btn-parliament" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-sky-600 text-white shadow" data-html2canvas-ignore="true">PARLIAMENT</button>
+                <button onclick="setMode('presidential')" id="btn-presidential" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700" data-html2canvas-ignore="true">PRESIDENTIAL</button>
+                <button onclick="setMode('us')" id="btn-us" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700" data-html2canvas-ignore="true">US ELECTION</button>
+                <button onclick="toggleEditor()" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-amber-600/80 hover:bg-amber-600 text-white ml-2 shadow" data-html2canvas-ignore="true">⚙️ EDITOR</button>
+                <button onclick="export4K()" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-emerald-600 hover:bg-emerald-500 text-white shadow" data-html2canvas-ignore="true">📸 4K FULL</button>
             </div>
         </header>
 
         <!-- MAIN VIEW -->
         <main id="view-standard" class="flex-1 flex flex-col justify-between gap-6">
             
-            <!-- BARS & IDEOLOGIES GRAPH (Export-Bereich 1) -->
-            <div id="export-section-bars" class="pitch-card rounded-xl p-6 relative overflow-hidden flex-1 flex flex-col justify-end min-h-[460px]">
-                <div id="bars-container" class="flex gap-[0.5px] items-end h-[260px] w-full border-b border-gray-800 pb-2 relative justify-center"></div>
-                <div id="ideology-container" class="flex gap-[0.5px] pt-3 min-h-[140px] text-center items-start justify-center"></div>
+            <!-- EXPORT-BEREICH 1: Ticker, Header & Balken vereint -->
+            <div id="export-section-bars" class="flex flex-col gap-4 bg-[#0B0F19] p-2 rounded-xl">
+                <!-- Im Export eingebundener Ticker -->
+                <div id="export-ticker-clone" class="ticker-wrap flex items-center shadow-lg rounded-lg overflow-hidden">
+                    <div class="bg-black text-white px-4 h-full flex items-center font-bold text-xs uppercase tracking-widest tech-font flex-shrink-0 z-10 border-r border-rose-800">
+                        🚨 BREAKING NEWS
+                    </div>
+                    <div class="overflow-hidden flex-1 relative flex items-center">
+                        <div id="export-ticker-text-clone" class="ticker-move text-white font-semibold text-sm tracking-wide">
+                            <span class="inline-block px-8">+++ ELECTION STUDIO READY FOR DATA INPUT +++</span>
+                            <span class="inline-block px-8">PLEASE ADD PARTIES AND VALUES IN THE EDITOR +++</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pitch-card rounded-xl p-6 relative overflow-hidden flex-1 flex flex-col justify-end min-h-[460px]">
+                    <div id="bars-container" class="flex gap-[0.5px] items-end h-[260px] w-full border-b border-gray-800 pb-2 relative justify-center"></div>
+                    <div id="ideology-container" class="flex gap-[0.5px] pt-3 min-h-[140px] text-center items-start justify-center"></div>
+                </div>
             </div>
 
             <!-- MAIN PARLIAMENT SEAT DISTRIBUTION (Export-Bereich 2) -->
             <div id="export-section-parliament" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[340px]">
                 <div class="flex justify-between items-center w-full mb-3 max-w-3xl">
                     <h3 class="text-xs font-bold tech-font text-gray-400 uppercase tracking-widest">Total Seat Distribution (<span id="display-total-seats">0</span> Seats)</h3>
-                    <button onclick="toggleSeatGrouping()" id="btn-seat-grouping" class="text-xs bg-gray-800 hover:bg-gray-700 text-sky-400 px-3 py-1 rounded border border-gray-700 tech-font font-bold">Mode: Parties</button>
+                    <button onclick="toggleSeatGrouping()" id="btn-seat-grouping" class="text-xs bg-gray-800 hover:bg-gray-700 text-sky-400 px-3 py-1 rounded border border-gray-700 tech-font font-bold" data-html2canvas-ignore="true">Mode: Parties</button>
                 </div>
                 <div id="block-container" class="flex gap-3 mb-4 flex-wrap justify-center w-full max-w-3xl"></div>
                 
@@ -172,9 +189,9 @@
                 </div>
             </div>
 
-            <!-- COALITION CALCULATOR CONTAINER (Export-Bereich 3 - Rechner nebeneinander) -->
+            <!-- COALITION CALCULATOR CONTAINER (Export-Bereich 3) -->
             <div id="export-section-coalitions" class="flex flex-col gap-6">
-                <div class="flex justify-between items-center px-2">
+                <div class="flex justify-between items-center px-2" data-html2canvas-ignore="true">
                     <h3 class="text-xs font-bold tech-font text-gray-400 uppercase tracking-wider">Coalition Calculator Panel</h3>
                     <div class="flex items-center gap-1 bg-gray-900 p-1 rounded-lg border border-gray-800">
                         <span class="text-[10px] font-bold tech-font text-gray-400 px-2">Calculators:</span>
@@ -184,7 +201,6 @@
                     </div>
                 </div>
 
-                <!-- GridContainer: Gleich groß nebeneinander -->
                 <div id="calculators-grid" class="grid grid-cols-1 gap-6 w-full items-stretch">
                     
                     <!-- Calculator 1 -->
@@ -480,7 +496,7 @@
             document.getElementById('edit-ticker').value = meta.ticker;
         };
 
-        // Instagram Teil-Export Funktion
+        // Instagram Export mit fester Breite & padding, damit nichts abgeschnitten wird
         function exportIG(sectionKey) {
             let targetEl = null;
             let filenamePrefix = 'election_ig';
@@ -498,18 +514,18 @@
 
             if (!targetEl) return;
 
+            // Feste Render-Breite erzwingen, damit Flexbox-Inhalte zentriert und komplett bleiben
+            const originalWidth = targetEl.style.width;
+            targetEl.style.width = "1200px";
+
             html2canvas(targetEl, {
                 scale: 2,
                 backgroundColor: '#0B0F19',
                 useCORS: true,
                 logging: false,
-                onclone: (clonedDoc) => {
-                    const clonedTarget = clonedDoc.getElementById(targetEl.id);
-                    if (clonedTarget) {
-                        clonedTarget.style.width = targetEl.offsetWidth + 'px';
-                    }
-                }
+                windowWidth: 1400
             }).then(canvas => {
+                targetEl.style.width = originalWidth;
                 const filename = `${filenamePrefix}_${Date.now()}.png`;
                 canvas.toBlob(blob => {
                     const url = URL.createObjectURL(blob);
@@ -524,6 +540,7 @@
                     }, 100);
                 }, 'image/png');
             }).catch(err => {
+                targetEl.style.width = originalWidth;
                 console.error("IG Export failed:", err);
                 alert("Export failed.");
             });
@@ -1034,10 +1051,13 @@
         function updateTicker() {
             meta.ticker = document.getElementById('edit-ticker').value;
             const tickerEl = document.getElementById('ticker-text');
-            tickerEl.innerHTML = `
+            const exportTickerClone = document.getElementById('export-ticker-text-clone');
+            const htmlContent = `
                 <span class="inline-block px-8">${meta.ticker}</span>
                 <span class="inline-block px-8">${meta.ticker}</span>
             `;
+            tickerEl.innerHTML = htmlContent;
+            if(exportTickerClone) exportTickerClone.innerHTML = htmlContent;
         }
 
         function renderPartyEditor() {
