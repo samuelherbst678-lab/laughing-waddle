@@ -88,7 +88,14 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-3 flex-wrap">
+            <div class="flex items-center gap-2 flex-wrap">
+                <!-- IG Layout Toggle -->
+                <button onclick="toggleIGMode()" id="btn-ig-mode" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-purple-600 hover:bg-purple-500 text-white shadow flex items-center gap-1.5">
+                    <span>📱</span> IG VIEW: OFF
+                </button>
+
+                <div class="h-4 w-[1px] bg-gray-800 mx-1"></div>
+
                 <!-- Turnout Box -->
                 <div class="flex items-center bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow">
                     <div class="bg-gray-700 px-3 py-1.5 text-xs font-bold text-white flex items-center gap-1.5 tech-font">
@@ -122,7 +129,7 @@
         <main id="view-standard" class="flex-1 flex flex-col justify-between gap-6">
             
             <!-- BARS & IDEOLOGIES GRAPH -->
-            <div class="pitch-card rounded-xl p-6 relative overflow-hidden flex-1 flex flex-col justify-end min-h-[460px]">
+            <div id="section-bars" class="pitch-card rounded-xl p-6 relative overflow-hidden flex-1 flex flex-col justify-end min-h-[460px]">
                 <div id="bars-container" class="flex gap-[0.5px] items-end h-[260px] w-full border-b border-gray-800 pb-2 relative justify-center"></div>
                 <div id="ideology-container" class="flex gap-[0.5px] pt-3 min-h-[140px] text-center items-start justify-center"></div>
             </div>
@@ -162,9 +169,9 @@
                 </div>
             </div>
 
-            <!-- COALITION CALCULATOR CONTAINER (Dynamic 1, 2 or 3 Calculators) -->
+            <!-- COALITION CALCULATOR CONTAINER (Drei Rechner nebeneinander, exakt gleich groß) -->
             <div id="coalition-section-wrapper" class="flex flex-col gap-6">
-                <div class="flex justify-between items-center px-2">
+                <div class="flex justify-between items-center px-2" id="calc-controls-bar">
                     <h3 class="text-xs font-bold tech-font text-gray-400 uppercase tracking-wider">Coalition Calculator Panel</h3>
                     <div class="flex items-center gap-1 bg-gray-900 p-1 rounded-lg border border-gray-800">
                         <span class="text-[10px] font-bold tech-font text-gray-400 px-2">Calculators:</span>
@@ -174,27 +181,30 @@
                     </div>
                 </div>
 
-                <!-- GridContainer for the Calculators -->
-                <div id="calculators-grid" class="grid grid-cols-1 gap-6">
+                <!-- GridContainer: Exakt gleich große Spalten nebeneinander -->
+                <div id="calculators-grid" class="grid grid-cols-1 gap-6 w-full items-stretch">
+                    
                     <!-- Calculator 1 -->
-                    <div id="calc-box-1" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[380px]">
-                        <div class="flex justify-between items-center w-full mb-3">
-                            <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator A</h3>
-                            <div id="coalition-status-1" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
-                                NO MAJORITY (0 / 0 Seats)
+                    <div id="calc-box-1" class="pitch-card rounded-xl p-6 flex flex-col justify-between relative min-h-[380px] flex-1">
+                        <div>
+                            <div class="flex justify-between items-center w-full mb-3">
+                                <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator A</h3>
+                                <div id="coalition-status-1" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
+                                    NO MAJORITY (0 / 0 Seats)
+                                </div>
                             </div>
+                            <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
+                                <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
+                                <div id="coalition-block-quickselect-1" class="flex gap-2 flex-wrap justify-center"></div>
+                            </div>
+                            <div id="coalition-buttons-1" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
                         </div>
-                        <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
-                            <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
-                            <div id="coalition-block-quickselect-1" class="flex gap-2 flex-wrap"></div>
-                        </div>
-                        <div id="coalition-buttons-1" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
-                        <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800">
+                        <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800 mt-auto">
                             <span class="text-xs font-bold tech-font text-gray-400 mb-3 uppercase tracking-wider">Coalition Distribution A</span>
                             <div id="coalition-arc-wrapper-1" class="relative w-[340px] h-[180px] flex justify-center items-center">
                                 <canvas id="coalitionChart-1"></canvas>
                             </div>
-                            <div id="coalition-westminster-wrapper-1" class="hidden flex-col items-center justify-center w-full max-w-4xl py-4">
+                            <div id="coalition-westminster-wrapper-1" class="hidden flex-col items-center justify-center w-full py-4">
                                 <div class="flex items-center gap-4 w-full">
                                     <div class="flex flex-col items-center justify-center border border-gray-800 p-2.5 rounded-lg bg-gray-900 shadow-inner">
                                         <div class="w-4 h-4 rounded-full bg-amber-400 mb-1 shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div>
@@ -219,24 +229,26 @@
                     </div>
 
                     <!-- Calculator 2 -->
-                    <div id="calc-box-2" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[380px] hidden">
-                        <div class="flex justify-between items-center w-full mb-3">
-                            <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator B</h3>
-                            <div id="coalition-status-2" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
-                                NO MAJORITY (0 / 0 Seats)
+                    <div id="calc-box-2" class="pitch-card rounded-xl p-6 flex flex-col justify-between relative min-h-[380px] flex-1 hidden">
+                        <div>
+                            <div class="flex justify-between items-center w-full mb-3">
+                                <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator B</h3>
+                                <div id="coalition-status-2" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
+                                    NO MAJORITY (0 / 0 Seats)
+                                </div>
                             </div>
+                            <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
+                                <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
+                                <div id="coalition-block-quickselect-2" class="flex gap-2 flex-wrap justify-center"></div>
+                            </div>
+                            <div id="coalition-buttons-2" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
                         </div>
-                        <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
-                            <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
-                            <div id="coalition-block-quickselect-2" class="flex gap-2 flex-wrap"></div>
-                        </div>
-                        <div id="coalition-buttons-2" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
-                        <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800">
+                        <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800 mt-auto">
                             <span class="text-xs font-bold tech-font text-gray-400 mb-3 uppercase tracking-wider">Coalition Distribution B</span>
                             <div id="coalition-arc-wrapper-2" class="relative w-[340px] h-[180px] flex justify-center items-center">
                                 <canvas id="coalitionChart-2"></canvas>
                             </div>
-                            <div id="coalition-westminster-wrapper-2" class="hidden flex-col items-center justify-center w-full max-w-4xl py-4">
+                            <div id="coalition-westminster-wrapper-2" class="hidden flex-col items-center justify-center w-full py-4">
                                 <div class="flex items-center gap-4 w-full">
                                     <div class="flex flex-col items-center justify-center border border-gray-800 p-2.5 rounded-lg bg-gray-900 shadow-inner">
                                         <div class="w-4 h-4 rounded-full bg-amber-400 mb-1 shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div>
@@ -261,24 +273,26 @@
                     </div>
 
                     <!-- Calculator 3 -->
-                    <div id="calc-box-3" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[380px] hidden">
-                        <div class="flex justify-between items-center w-full mb-3">
-                            <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator C</h3>
-                            <div id="coalition-status-3" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
-                                NO MAJORITY (0 / 0 Seats)
+                    <div id="calc-box-3" class="pitch-card rounded-xl p-6 flex flex-col justify-between relative min-h-[380px] flex-1 hidden">
+                        <div>
+                            <div class="flex justify-between items-center w-full mb-3">
+                                <h3 class="text-xs font-bold tech-font text-gray-300 uppercase tracking-wider">Coalition Calculator C</h3>
+                                <div id="coalition-status-3" class="text-xs font-bold tech-font px-3.5 py-1.5 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-800/60">
+                                    NO MAJORITY (0 / 0 Seats)
+                                </div>
                             </div>
+                            <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
+                                <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
+                                <div id="coalition-block-quickselect-3" class="flex gap-2 flex-wrap justify-center"></div>
+                            </div>
+                            <div id="coalition-buttons-3" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
                         </div>
-                        <div class="w-full flex items-center justify-center gap-2 mb-3 pb-2 border-b border-gray-800">
-                            <span class="text-[10px] font-bold tech-font text-gray-500 uppercase">Select Block:</span>
-                            <div id="coalition-block-quickselect-3" class="flex gap-2 flex-wrap"></div>
-                        </div>
-                        <div id="coalition-buttons-3" class="flex flex-wrap gap-2 mb-6 justify-center w-full"></div>
-                        <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800">
+                        <div class="flex flex-col items-center justify-center w-full pt-3 border-t border-gray-800 mt-auto">
                             <span class="text-xs font-bold tech-font text-gray-400 mb-3 uppercase tracking-wider">Coalition Distribution C</span>
                             <div id="coalition-arc-wrapper-3" class="relative w-[340px] h-[180px] flex justify-center items-center">
                                 <canvas id="coalitionChart-3"></canvas>
                             </div>
-                            <div id="coalition-westminster-wrapper-3" class="hidden flex-col items-center justify-center w-full max-w-4xl py-4">
+                            <div id="coalition-westminster-wrapper-3" class="hidden flex-col items-center justify-center w-full py-4">
                                 <div class="flex items-center gap-4 w-full">
                                     <div class="flex flex-col items-center justify-center border border-gray-800 p-2.5 rounded-lg bg-gray-900 shadow-inner">
                                         <div class="w-4 h-4 rounded-full bg-amber-400 mb-1 shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div>
@@ -301,6 +315,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </main>
@@ -403,6 +418,7 @@
         let majoritySeatsNeeded = 0;
         let totalParliamentSeats = 0;
         let activeCalculatorCount = 1;
+        let igModeActive = false;
 
         let parliamentChartInstance = null;
         let coalitionChartInstances = { 1: null, 2: null, 3: null };
@@ -416,13 +432,7 @@
 
         let parliamentParties = [];
         let presidentialCandidates = [];
-
-        // Für jeden Rechner eigene Koalitions-Auswahl (coalition states pro Rechner ID)
-        let coalitionSelections = {
-            1: {},
-            2: {},
-            3: {}
-        };
+        let coalitionSelections = { 1: {}, 2: {}, 3: {} };
 
         let usStates = [
             { code: 'AL', votes: 9, status: 'neutral', swing: false }, { code: 'AK', votes: 3, status: 'neutral', swing: false },
@@ -468,20 +478,38 @@
             document.getElementById('edit-ticker').value = meta.ticker;
         };
 
+        function toggleIGMode() {
+            igModeActive = !igModeActive;
+            const btn = document.getElementById('btn-ig-mode');
+            const barsSec = document.getElementById('section-bars');
+            const parlSec = document.getElementById('parliament-section');
+
+            if (igModeActive) {
+                btn.className = "px-3 py-1.5 text-xs font-semibold rounded tech-font bg-emerald-600 hover:bg-emerald-500 text-white shadow flex items-center gap-1.5 ring-2 ring-emerald-400";
+                btn.innerHTML = "<span>📱</span> IG VIEW: ON";
+                // Im Instagram-Modus z.B. nur den Koalitions-Rechner und Header anzeigen, um es kompakt zu halten
+                if(barsSec) barsSec.style.display = 'none';
+                if(parlSec) parlSec.style.display = 'none';
+            } else {
+                btn.className = "px-3 py-1.5 text-xs font-semibold rounded tech-font bg-purple-600 hover:bg-purple-500 text-white shadow flex items-center gap-1.5";
+                btn.innerHTML = "<span>📱</span> IG VIEW: OFF";
+                if(barsSec) barsSec.style.display = 'flex';
+                if(parlSec) parlSec.style.display = 'flex';
+            }
+        }
+
         function setCalculatorCount(count) {
             activeCalculatorCount = count;
-            
-            // Grid-Spalten anpassen
             const grid = document.getElementById('calculators-grid');
+            
             if (count === 1) {
-                grid.className = "grid grid-cols-1 gap-6 max-w-2xl mx-auto w-full";
+                grid.className = "grid grid-cols-1 gap-6 max-w-2xl mx-auto w-full items-stretch";
             } else if (count === 2) {
-                grid.className = "grid grid-cols-1 md:grid-cols-2 gap-6 w-full";
+                grid.className = "grid grid-cols-1 md:grid-cols-2 gap-6 w-full items-stretch";
             } else {
-                grid.className = "grid grid-cols-1 lg:grid-cols-3 gap-6 w-full";
+                grid.className = "grid grid-cols-1 lg:grid-cols-3 gap-6 w-full items-stretch";
             }
 
-            // Buttons Highlight aktualisieren
             for (let i = 1; i <= 3; i++) {
                 const btn = document.getElementById(`btn-calc-${i}`);
                 const box = document.getElementById(`calc-box-${i}`);
