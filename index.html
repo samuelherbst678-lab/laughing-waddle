@@ -484,7 +484,7 @@
             document.getElementById('edit-ticker').value = meta.ticker;
         };
 
-        // Instagram Export mit festem Hochkant-Format (1080x1350) und zentriertem Padding, damit nichts abgeschnitten wird
+        // Instagram Export im Hochkant-Format (1080x1350) mit absolut stabiler Chart-Sicherung
         function exportIG(sectionKey) {
             let contentEl = null;
             let filenamePrefix = 'election_ig';
@@ -502,7 +502,6 @@
 
             if (!contentEl) return;
 
-            // Fester Hochkant-Export-Container (IG Feed Format 4:5 ratio)
             const wrapper = document.createElement('div');
             wrapper.style.position = 'fixed';
             wrapper.style.left = '-9999px';
@@ -527,6 +526,22 @@
             wrapper.appendChild(headerClone);
             wrapper.appendChild(contentClone);
             document.body.appendChild(wrapper);
+
+            // WICHTIG: Ersetze alle Canvas-Elemente im Klon durch live gerenderte Bild-Daten, damit Chart.js in html2canvas nicht leer bleibt!
+            const originalCanvases = contentEl.querySelectorAll('canvas');
+            const clonedCanvases = wrapper.querySelectorAll('canvas');
+            originalCanvases.forEach((origCanvas, idx) => {
+                if (clonedCanvases[idx]) {
+                    const dataUrl = origCanvas.toDataURL();
+                    const img = document.createElement('img');
+                    img.src = dataUrl;
+                    img.style.width = origCanvas.style.width || '340px';
+                    img.style.height = origCanvas.style.height || '180px';
+                    img.style.display = 'block';
+                    img.style.margin = '0 auto';
+                    clonedCanvases[idx].parentNode.replaceChild(img, clonedCanvases[idx]);
+                }
+            });
 
             html2canvas(wrapper, {
                 scale: 2,
