@@ -75,7 +75,7 @@
     </div>
 
     <!-- MAIN APP WRAPPER -->
-    <div id="export-area" class="flex-1 flex flex-col p-4 md:p-6 max-w-[1920px] mx-auto w-full bg-[#0B0F19]">
+    <div class="flex-1 flex flex-col p-4 md:p-6 max-w-[1920px] mx-auto w-full bg-[#0B0F19]">
         
         <!-- HEADER -->
         <header class="flex flex-wrap items-center justify-between pb-4 mb-4 border-b border-gray-800 gap-4">
@@ -89,10 +89,13 @@
             </div>
 
             <div class="flex items-center gap-2 flex-wrap">
-                <!-- IG Layout Toggle -->
-                <button onclick="toggleIGMode()" id="btn-ig-mode" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-purple-600 hover:bg-purple-500 text-white shadow flex items-center gap-1.5">
-                    <span>📱</span> IG VIEW: OFF
-                </button>
+                <!-- IG Export Dropdown / Buttons -->
+                <div class="flex items-center bg-purple-950/60 border border-purple-800/60 rounded-lg p-1 gap-1">
+                    <span class="text-[10px] font-bold tech-font text-purple-300 px-2">📱 IG EXPORT:</span>
+                    <button onclick="exportIG('bars')" class="px-2.5 py-1 text-xs font-semibold rounded tech-font bg-purple-600 hover:bg-purple-500 text-white shadow">1. Balken</button>
+                    <button onclick="exportIG('parliament')" class="px-2.5 py-1 text-xs font-semibold rounded tech-font bg-purple-600 hover:bg-purple-500 text-white shadow">2. Parlament</button>
+                    <button onclick="exportIG('coalitions')" class="px-2.5 py-1 text-xs font-semibold rounded tech-font bg-purple-600 hover:bg-purple-500 text-white shadow">3. Rechner</button>
+                </div>
 
                 <div class="h-4 w-[1px] bg-gray-800 mx-1"></div>
 
@@ -121,21 +124,21 @@
                 <button onclick="setMode('presidential')" id="btn-presidential" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700">PRESIDENTIAL</button>
                 <button onclick="setMode('us')" id="btn-us" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700">US ELECTION</button>
                 <button onclick="toggleEditor()" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-amber-600/80 hover:bg-amber-600 text-white ml-2 shadow">⚙️ EDITOR</button>
-                <button onclick="export4K()" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-emerald-600 hover:bg-emerald-500 text-white shadow">📸 4K EXPORT</button>
+                <button onclick="export4K()" class="px-3 py-1.5 text-xs font-semibold rounded tech-font bg-emerald-600 hover:bg-emerald-500 text-white shadow">📸 4K FULL</button>
             </div>
         </header>
 
         <!-- MAIN VIEW -->
         <main id="view-standard" class="flex-1 flex flex-col justify-between gap-6">
             
-            <!-- BARS & IDEOLOGIES GRAPH -->
-            <div id="section-bars" class="pitch-card rounded-xl p-6 relative overflow-hidden flex-1 flex flex-col justify-end min-h-[460px]">
+            <!-- BARS & IDEOLOGIES GRAPH (Export-Bereich 1) -->
+            <div id="export-section-bars" class="pitch-card rounded-xl p-6 relative overflow-hidden flex-1 flex flex-col justify-end min-h-[460px]">
                 <div id="bars-container" class="flex gap-[0.5px] items-end h-[260px] w-full border-b border-gray-800 pb-2 relative justify-center"></div>
                 <div id="ideology-container" class="flex gap-[0.5px] pt-3 min-h-[140px] text-center items-start justify-center"></div>
             </div>
 
-            <!-- MAIN PARLIAMENT SEAT DISTRIBUTION -->
-            <div id="parliament-section" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[340px]">
+            <!-- MAIN PARLIAMENT SEAT DISTRIBUTION (Export-Bereich 2) -->
+            <div id="export-section-parliament" class="pitch-card rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[340px]">
                 <div class="flex justify-between items-center w-full mb-3 max-w-3xl">
                     <h3 class="text-xs font-bold tech-font text-gray-400 uppercase tracking-widest">Total Seat Distribution (<span id="display-total-seats">0</span> Seats)</h3>
                     <button onclick="toggleSeatGrouping()" id="btn-seat-grouping" class="text-xs bg-gray-800 hover:bg-gray-700 text-sky-400 px-3 py-1 rounded border border-gray-700 tech-font font-bold">Mode: Parties</button>
@@ -169,9 +172,9 @@
                 </div>
             </div>
 
-            <!-- COALITION CALCULATOR CONTAINER (Drei Rechner nebeneinander, exakt gleich groß) -->
-            <div id="coalition-section-wrapper" class="flex flex-col gap-6">
-                <div class="flex justify-between items-center px-2" id="calc-controls-bar">
+            <!-- COALITION CALCULATOR CONTAINER (Export-Bereich 3 - Rechner nebeneinander) -->
+            <div id="export-section-coalitions" class="flex flex-col gap-6">
+                <div class="flex justify-between items-center px-2">
                     <h3 class="text-xs font-bold tech-font text-gray-400 uppercase tracking-wider">Coalition Calculator Panel</h3>
                     <div class="flex items-center gap-1 bg-gray-900 p-1 rounded-lg border border-gray-800">
                         <span class="text-[10px] font-bold tech-font text-gray-400 px-2">Calculators:</span>
@@ -181,7 +184,7 @@
                     </div>
                 </div>
 
-                <!-- GridContainer: Exakt gleich große Spalten nebeneinander -->
+                <!-- GridContainer: Gleich groß nebeneinander -->
                 <div id="calculators-grid" class="grid grid-cols-1 gap-6 w-full items-stretch">
                     
                     <!-- Calculator 1 -->
@@ -418,7 +421,6 @@
         let majoritySeatsNeeded = 0;
         let totalParliamentSeats = 0;
         let activeCalculatorCount = 1;
-        let igModeActive = false;
 
         let parliamentChartInstance = null;
         let coalitionChartInstances = { 1: null, 2: null, 3: null };
@@ -478,24 +480,53 @@
             document.getElementById('edit-ticker').value = meta.ticker;
         };
 
-        function toggleIGMode() {
-            igModeActive = !igModeActive;
-            const btn = document.getElementById('btn-ig-mode');
-            const barsSec = document.getElementById('section-bars');
-            const parlSec = document.getElementById('parliament-section');
+        // Instagram Teil-Export Funktion
+        function exportIG(sectionKey) {
+            let targetEl = null;
+            let filenamePrefix = 'election_ig';
 
-            if (igModeActive) {
-                btn.className = "px-3 py-1.5 text-xs font-semibold rounded tech-font bg-emerald-600 hover:bg-emerald-500 text-white shadow flex items-center gap-1.5 ring-2 ring-emerald-400";
-                btn.innerHTML = "<span>📱</span> IG VIEW: ON";
-                // Im Instagram-Modus z.B. nur den Koalitions-Rechner und Header anzeigen, um es kompakt zu halten
-                if(barsSec) barsSec.style.display = 'none';
-                if(parlSec) parlSec.style.display = 'none';
-            } else {
-                btn.className = "px-3 py-1.5 text-xs font-semibold rounded tech-font bg-purple-600 hover:bg-purple-500 text-white shadow flex items-center gap-1.5";
-                btn.innerHTML = "<span>📱</span> IG VIEW: OFF";
-                if(barsSec) barsSec.style.display = 'flex';
-                if(parlSec) parlSec.style.display = 'flex';
+            if (sectionKey === 'bars') {
+                targetEl = document.getElementById('export-section-bars');
+                filenamePrefix = 'election_balken';
+            } else if (sectionKey === 'parliament') {
+                targetEl = document.getElementById('export-section-parliament');
+                filenamePrefix = 'election_sitzverteilung';
+            } else if (sectionKey === 'coalitions') {
+                targetEl = document.getElementById('export-section-coalitions');
+                filenamePrefix = 'election_koalitionen';
             }
+
+            if (!targetEl) return;
+
+            html2canvas(targetEl, {
+                scale: 2,
+                backgroundColor: '#0B0F19',
+                useCORS: true,
+                logging: false,
+                onclone: (clonedDoc) => {
+                    const clonedTarget = clonedDoc.getElementById(targetEl.id);
+                    if (clonedTarget) {
+                        clonedTarget.style.width = targetEl.offsetWidth + 'px';
+                    }
+                }
+            }).then(canvas => {
+                const filename = `${filenamePrefix}_${Date.now()}.png`;
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = filename;
+                    document.body.appendChild(link);
+                    link.click();
+                    setTimeout(() => {
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                }, 'image/png');
+            }).catch(err => {
+                console.error("IG Export failed:", err);
+                alert("Export failed.");
+            });
         }
 
         function setCalculatorCount(count) {
@@ -571,8 +602,8 @@
                 document.getElementById('view-us').classList.add('hidden');
                 document.getElementById('view-us').classList.remove('flex');
                 document.getElementById('view-standard').classList.remove('hidden');
-                document.getElementById('parliament-section').style.display = mode === 'parliament' ? 'flex' : 'none';
-                document.getElementById('coalition-section-wrapper').style.display = mode === 'parliament' ? 'flex' : 'none';
+                document.getElementById('export-section-parliament').style.display = mode === 'parliament' ? 'flex' : 'none';
+                document.getElementById('export-section-coalitions').style.display = mode === 'parliament' ? 'flex' : 'none';
             }
             renderAll(true);
         }
@@ -1091,39 +1122,28 @@
         }
 
         function export4K() {
-            const exportArea = document.getElementById('export-area');
+            const exportArea = document.body;
             html2canvas(exportArea, {
                 scale: 2,
                 backgroundColor: '#0B0F19',
                 useCORS: true,
-                logging: false,
-                onclone: (clonedDoc) => {
-                    const clonedExportArea = clonedDoc.getElementById('export-area');
-                    if (clonedExportArea) {
-                        clonedExportArea.style.width = exportArea.offsetWidth + 'px';
-                    }
-                }
+                logging: false
             }).then(canvas => {
-                const filename = `election_studio_4k_${Date.now()}.png`;
-                if (navigator.msSaveBlob) {
-                    navigator.msSaveBlob(canvas.msToBlob(), filename);
-                } else {
-                    canvas.toBlob(blob => {
-                        const url = URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = filename;
-                        document.body.appendChild(link);
-                        link.click();
-                        setTimeout(() => {
-                            document.body.removeChild(link);
-                            URL.revokeObjectURL(url);
-                        }, 100);
-                    }, 'image/png');
-                }
+                const filename = `election_studio_full_${Date.now()}.png`;
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = filename;
+                    document.body.appendChild(link);
+                    link.click();
+                    setTimeout(() => {
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                }, 'image/png');
             }).catch(err => {
-                console.error("Export failed:", err);
-                alert("Export failed. Please check console.");
+                console.error("Full Export failed:", err);
             });
         }
     </script>
